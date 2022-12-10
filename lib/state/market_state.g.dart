@@ -25,15 +25,42 @@ mixin _$MarketState on _MarketState, Store {
     });
   }
 
+  late final _$badgeListAtom =
+      Atom(name: '_MarketState.badgeList', context: context);
+
+  @override
+  List<CoffeeMenu> get badgeList {
+    _$badgeListAtom.reportRead();
+    return super.badgeList;
+  }
+
+  @override
+  set badgeList(List<CoffeeMenu> value) {
+    _$badgeListAtom.reportWrite(value, super.badgeList, () {
+      super.badgeList = value;
+    });
+  }
+
   late final _$_MarketStateActionController =
       ActionController(name: '_MarketState', context: context);
 
   @override
-  void buyNot() {
+  void buyNot(CoffeeMenu coffee) {
     final _$actionInfo =
         _$_MarketStateActionController.startAction(name: '_MarketState.buyNot');
     try {
-      return super.buyNot();
+      return super.buyNot(coffee);
+    } finally {
+      _$_MarketStateActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeBadgeCount(CoffeeMenu coffee) {
+    final _$actionInfo = _$_MarketStateActionController.startAction(
+        name: '_MarketState.changeBadgeCount');
+    try {
+      return super.changeBadgeCount(coffee);
     } finally {
       _$_MarketStateActionController.endAction(_$actionInfo);
     }
@@ -42,7 +69,8 @@ mixin _$MarketState on _MarketState, Store {
   @override
   String toString() {
     return '''
-menuList: ${menuList}
+menuList: ${menuList},
+badgeList: ${badgeList}
     ''';
   }
 }
