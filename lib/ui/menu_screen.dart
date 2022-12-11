@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx_shop/state/market_state.dart';
+import 'package:mobx_shop/ui/badge_screen.dart';
 import 'package:provider/provider.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -12,7 +13,7 @@ class MenuScreen extends StatelessWidget {
     final state = Provider.of<MarketState>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('mobX shop'),
+        title: const Text('mobX shop'),
         centerTitle: true,
         leading:Observer(
           builder: (context)=>Badge(
@@ -22,25 +23,26 @@ class MenuScreen extends StatelessWidget {
               icon: const Icon(Icons.shopping_cart),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const MaterialApp();
+                  return const BadgeScreen();
                 }));
               },
             ),
           ),
         ),
       ),
-      body: GridView.count(
+      body: Observer(
+        builder:(context)=>GridView.count(
           shrinkWrap
               : true,
           childAspectRatio: MediaQuery.of(context).size.width /
               (MediaQuery.of(context).size.height / 1.5),
           padding:
-              const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+          const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
           crossAxisCount: 2,
           children: state.menuList.map(
-            (menu) {
+                (menu) {
               return Card(
                 color: const Color.fromARGB(255, 255, 229, 85),
                 shape: RoundedRectangleBorder(
@@ -66,20 +68,18 @@ class MenuScreen extends StatelessWidget {
                               color: const Color.fromARGB(255, 174, 206, 231),
                               height: 40,
                               width: 40,
-                              child: Observer(
-                                builder: (context)=>IconButton(
-                                  icon: Icon(
-                                    Icons.shopping_basket,
-                                    color: !menu.isBuy ? Colors.grey : Colors.red,
-                                  ),
-                                  onPressed: () {
-                                    state.buyNot(menu);
-                                    state.changeBadgeCount(menu);
-                                  },
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.shopping_basket,
+                                  color: !menu.isBuy ? Colors.grey : Colors.red,
                                 ),
+                                onPressed: () {
+                                  state.buyNot(menu);
+                                  state.changeBadgeCount(menu);
+                                },
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -109,6 +109,7 @@ class MenuScreen extends StatelessWidget {
             },
           ).toList(),
         ),
+      ),
     );
   }
 }
