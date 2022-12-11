@@ -67,6 +67,28 @@ mixin _$MarketState on _MarketState, Store {
   }
 
   @override
+  void changeBuyStatus() {
+    final _$actionInfo = _$_MarketStateActionController.startAction(
+        name: '_MarketState.changeBuyStatus');
+    try {
+      return super.changeBuyStatus();
+    } finally {
+      _$_MarketStateActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clearBadge() {
+    final _$actionInfo = _$_MarketStateActionController.startAction(
+        name: '_MarketState.clearBadge');
+    try {
+      return super.clearBadge();
+    } finally {
+      _$_MarketStateActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 menuList: ${menuList},
